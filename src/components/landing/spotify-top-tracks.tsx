@@ -27,7 +27,7 @@ export default function SpotifyTopTracks() {
                 const data = await response.json();
                 setTracks(data.items);
             } catch (err) {
-                setError('Failed to load top tracks');
+                setError('Please login to Spotify to proceed!');
                 console.error(err);
             }
         };

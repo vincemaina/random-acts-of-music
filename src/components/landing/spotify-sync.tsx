@@ -2,7 +2,6 @@
 
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
-import { cookies } from 'next/headers';
 
 export default function SpotifySync() {
     const [isLoading, setIsLoading] = useState(false);
