@@ -1,7 +1,11 @@
+import Header from "@/components/landing/header";
+import SpotifySync from "@/components/landing/spotify-sync";
+
 export default function Home() {
   return (
-    <div>
-      <h1 className="text-3xl font-black tracking-tighter">LANDING PAGE</h1>
+    <div className="p-4 space-y-4">
+      <Header />
+      <SpotifySync />
     </div>
   );
 }
