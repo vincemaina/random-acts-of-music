@@ -32,5 +32,5 @@ io.on("connection", (socket) => {
 });
 
 httpServer.listen(3001, () => {
-  console.log("hello");
+  console.log("Websocket server listening on 3001");
 });
