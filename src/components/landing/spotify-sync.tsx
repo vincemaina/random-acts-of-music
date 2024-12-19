@@ -13,7 +13,7 @@ export default function SpotifySync() {
         // Spotify OAuth configuration
         const client_id = process.env.NEXT_PUBLIC_SPOTIFY_CLIENT_ID;
         const redirect_uri = process.env.NEXT_PUBLIC_SPOTIFY_REDIRECT_URI;
-        const scope = 'user-read-private user-read-email playlist-read-private playlist-read-collaborative';
+        const scope = 'user-read-private user-read-email playlist-read-private playlist-read-collaborative user-top-read';
         
         // Generate random state string for security
         const state = Math.random().toString(36).substring(7);
