@@ -1,5 +1,8 @@
 import { createServer } from "http";
 import { Server } from "socket.io";
+import 'dotenv/config';
+
+const PORT = process.env.PORT || 3001; // Use the $PORT variable or default to 3001 locally
 
 const httpServer = createServer();
 const io = new Server(httpServer, {
@@ -60,6 +63,6 @@ io.on("connection", (socket) => {
   });
 });
 
-httpServer.listen(3001, () => {
+httpServer.listen(PORT, () => {
   console.log("Websocket server listening on 3001");
 });
