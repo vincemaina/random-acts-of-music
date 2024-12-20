@@ -1,1 +1,1 @@
-web: npm run ws-sever
+web: node websocket/server.js
