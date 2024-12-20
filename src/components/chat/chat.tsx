@@ -68,6 +68,10 @@ export default function Chat(props: Props) {
             sender: 'me'
         };
         setMessages([...messages, trackMessage]);
+        props.socket.emit('new-message', {
+            chatRoom: props.chatRoom,
+            message: trackMessage
+        });
         setActiveSelector(null);
     };
 
