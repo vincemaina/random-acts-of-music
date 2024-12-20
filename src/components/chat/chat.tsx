@@ -87,6 +87,12 @@ export default function Chat(props: Props) {
         };
     }, []);
 
+    // Add this helper function
+    const extractSpotifyTrackId = (url: string): string | null => {
+        const match = url.match(/track\/([a-zA-Z0-9]+)/);
+        return match ? match[1] : null;
+    };
+
     return (
         <div className="max-w-2xl mx-auto h-[600px] flex flex-col">
             {/* Messages Container */}
@@ -103,23 +109,18 @@ export default function Chat(props: Props) {
                         } ${message.isTrack ? 'p-0 overflow-hidden' : 'p-4'}`}
                         >
                             {message.isTrack ? (
-                                <a
-                                    href={message.trackData?.spotifyUrl}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="flex items-center bg-white"
-                                >
-                                    <img
-                                        src={message.trackData?.imageUrl}
-                                        alt={message.trackData?.albumName}
-                                        className="w-16 h-16"
-                                    />
-                                    <div className="ml-4 pr-4 py-2">
-                                        <h3 className="font-semibold text-gray-900">{message.trackData?.name}</h3>
-                                        <p className="text-gray-600">{message.trackData?.artists}</p>
-                                        <p className="text-gray-500 text-sm">{message.trackData?.albumName}</p>
-                                    </div>
-                                </a>
+                                <iframe 
+                                    style={{ borderRadius: '12px' }} 
+                                    src={`https://open.spotify.com/embed/track/${
+                                        extractSpotifyTrackId(message.trackData?.spotifyUrl || '')
+                                    }?utm_source=generator`}
+                                    width="100%" 
+                                    height="152" 
+                                    frameBorder="0" 
+                                    allowFullScreen
+                                    allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
+                                    loading="lazy"
+                                />
                             ) : (
                                 <p>{message.content}</p>
                             )}
