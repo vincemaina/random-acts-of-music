@@ -1,7 +1,8 @@
 'use client';
 
-import { useState, FormEvent } from 'react';
+import { useState, FormEvent, useEffect } from 'react';
 import SpotifyTopTracks from '../landing/spotify-top-tracks';
+import { type Socket } from "socket.io-client";
 
 interface Message {
     content: string;
@@ -13,17 +14,33 @@ interface Message {
         imageUrl: string;
         spotifyUrl: string;
     };
+    recipientId: string;
 }
 
-export default function Chat() {
+interface Props {
+    chatRoom: string;
+    recipientId: string;
+    socket: Socket
+}
+
+export default function Chat(props: Props) {
     const [messages, setMessages] = useState<Message[]>([]);
     const [inputMessage, setInputMessage] = useState('');
     const [showTrackSelector, setShowTrackSelector] = useState(false);
 
+    // Send a new message
     const handleSubmit = (e: FormEvent) => {
         e.preventDefault();
         if (inputMessage.trim()) {
-            setMessages([...messages, { content: inputMessage }]);
+            const message: Message = {
+                content: inputMessage,
+                recipientId: props.recipientId
+            };
+            setMessages([...messages, message]);
+            props.socket.emit('new-message', {
+                chatRoom: props.chatRoom,
+                message
+            });
             setInputMessage('');
         }
     };
@@ -48,6 +65,18 @@ export default function Chat() {
         setMessages([...messages, trackMessage]);
         setShowTrackSelector(false);
     };
+
+    useEffect(() => {
+        // Listening for new messages
+        props.socket.on('new-message', (message: Message) => {
+            setMessages(prevMessages => [...prevMessages, message]);
+        })
+
+        // Cleanup when component unmounts
+        return () => {
+            props.socket.off('new-message');
+        };
+    }, []);
 
     return (
         <div className="max-w-2xl mx-auto h-[600px] flex flex-col">
