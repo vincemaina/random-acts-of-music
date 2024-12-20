@@ -7,7 +7,8 @@ const PORT = process.env.PORT || 3001; // Use the $PORT variable or default to 3
 const httpServer = createServer();
 const io = new Server(httpServer, {
   cors: {
-    origin: "*"
+    origin: "*",
+    methods: ["GET", "POST"]
   }
 });
 
