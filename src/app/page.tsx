@@ -5,7 +5,7 @@ import Header from "@/components/landing/header";
 import { useEffect, useState } from "react";
 import { io, Socket } from "socket.io-client";
 
-const wsHost = process.env.WS_HOST;
+const wsHost = process.env.NEXT_PUBLIC_WS_HOST;
 
 if (!wsHost) {
     throw new Error("No env var provided for web socket host");
