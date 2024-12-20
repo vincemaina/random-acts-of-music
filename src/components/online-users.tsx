@@ -3,12 +3,18 @@
 import { useEffect, useState } from "react";
 import { io } from "socket.io-client";
 
+const wsHost = process.env.WS_HOST;
+
+if (!wsHost) {
+    throw new Error("No env var provided for web socket host");
+}
+
 export function OnlineUsers() {
 
     const [users, setUsers] = useState<string[]>([]);
 
     useEffect(() => {
-        const socket = io("http://localhost:3001");
+        const socket = io(wsHost);
 
         socket.on('connect', () => {
             console.log("Connected");

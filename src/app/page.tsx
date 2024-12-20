@@ -5,6 +5,12 @@ import Header from "@/components/landing/header";
 import { useEffect, useState } from "react";
 import { io, Socket } from "socket.io-client";
 
+const wsHost = process.env.WS_HOST;
+
+if (!wsHost) {
+    throw new Error("No env var provided for web socket host");
+}
+
 export default function Home() {
 
     const [chatRoom, setChatRoom] = useState(null);
@@ -12,7 +18,7 @@ export default function Home() {
     const [socket, setSocket] = useState<Socket>();
 
     useEffect(() => {
-        const socket = io("http://localhost:3001");
+        const socket = io(wsHost);
 
         // When the user is matched, receive the chat room and the other user
         socket.on('matched', (data) => {
