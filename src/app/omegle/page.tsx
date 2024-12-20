@@ -1,7 +1,7 @@
 "use client";
 
 import Chat from "@/components/chat/chat";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { io, Socket } from "socket.io-client";
 
 export default function Page() {
