@@ -1,5 +1,4 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { cookies } from 'next/headers';
 
 export async function GET(request: NextRequest) {
     try {
@@ -14,6 +13,15 @@ export async function GET(request: NextRequest) {
                 'Authorization': `Bearer ${accessToken}`
             }
         });
+
+        if (!response.ok) {
+            const errorText = await response.text();
+            console.error('Spotify API error:', response.status, errorText);
+            return NextResponse.json(
+                { error: `Spotify API error: ${response.status}` }, 
+                { status: response.status }
+            );
+        }
 
         const data = await response.json();
         return NextResponse.json(data);

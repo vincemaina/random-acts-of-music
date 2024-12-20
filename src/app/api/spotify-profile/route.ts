@@ -1,5 +1,4 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { cookies } from 'next/headers';
 
 export async function GET(request: NextRequest) {
     try {
@@ -16,9 +15,10 @@ export async function GET(request: NextRequest) {
         });
 
         const data = await response.json();
+        console.log(data);
         return NextResponse.json(data);
     } catch (error) {
         console.error('Error fetching Spotify profile:', error);
         return NextResponse.json({ error: 'Failed to fetch profile' }, { status: 500 });
     }
-} 
+}
