@@ -1,9 +1,12 @@
-'use client';
+"use client";
 
-import { useState, FormEvent, useEffect } from 'react';
-import SpotifyTopTracks from '../landing/spotify-top-tracks';
-import SpotifySearchTracks from '../landing/spotify-search-tracks';
+import { useState, FormEvent, useEffect } from "react";
+import SpotifySearchTracks from "../landing/spotify-search-tracks";
 import { type Socket } from "socket.io-client";
+import { Button } from "../ui/button";
+import { Input } from "../ui/input";
+import { Loader2 } from "lucide-react";
+import { AnimatePresence, motion } from "framer-motion";
 
 interface Message {
     content: string;
@@ -27,40 +30,44 @@ export default function Chat({ socket }: Props) {
     const [chatRoom, setChatRoom] = useState<string | null>(null);
     const [matchedUser, setMatchedUser] = useState<string>("");
     const [messages, setMessages] = useState<Message[]>([]);
-    const [inputMessage, setInputMessage] = useState('');
-    const [activeSelector, setActiveSelector] = useState<'top' | 'search' | null>(null);
+    const [inputMessage, setInputMessage] = useState("");
+    const [activeSelector, setActiveSelector] = useState<
+        "top" | "search" | null
+    >(null);
     const [userLeft, setUserLeft] = useState<boolean>(false);
 
     useEffect(() => {
         // When the user is matched, receive the chat room and the other user
-        socket.on('matched', (data) => {
+        socket.on("matched", (data) => {
             setChatRoom(data.chatRoom);
             setMatchedUser(data.userId);
-            console.log(`Matched with user ${data.userId} in room ${data.chatRoom}`);
+            console.log(
+                `Matched with user ${data.userId} in room ${data.chatRoom}`
+            );
         });
 
         // Cleanup listener on unmount
         return () => {
-            socket.off('matched');
+            socket.off("matched");
         };
     }, [socket]);
 
     useEffect(() => {
         // Listening for new messages
-        socket.on('new-message', (message: Message) => {
-            setMessages(prevMessages => [...prevMessages, message]);
-        })
+        socket.on("new-message", (message: Message) => {
+            setMessages((prevMessages) => [...prevMessages, message]);
+        });
 
         // Listen for user left message
-        socket.on('user-left', (userId: string) => {
+        socket.on("user-left", (userId: string) => {
             console.log(`${userId} left the chat.`);
             setUserLeft(true);
         });
 
         // Cleanup when component unmounts
         return () => {
-            socket.off('new-message');
-            socket.off('user-left');
+            socket.off("new-message");
+            socket.off("user-left");
         };
     }, [socket]);
 
@@ -71,7 +78,7 @@ export default function Chat({ socket }: Props) {
     };
 
     const handleLeaveChat = () => {
-        socket.emit('leave-chat', { chatRoom });
+        socket.emit("leave-chat", { chatRoom });
         setChatRoom(null);
         setMatchedUser("");
         setMessages([]);
@@ -84,14 +91,14 @@ export default function Chat({ socket }: Props) {
             const message: Message = {
                 content: inputMessage,
                 recipientId: matchedUser,
-                sender: 'me'
+                sender: "me",
             };
             setMessages([...messages, message]);
-            socket.emit('new-message', {
+            socket.emit("new-message", {
                 chatRoom: chatRoom,
-                message
+                message,
             });
-            setInputMessage('');
+            setInputMessage("");
         }
     };
 
@@ -106,57 +113,70 @@ export default function Chat({ socket }: Props) {
             isTrack: true,
             trackData: {
                 name: track.name,
-                artists: track.artists.map((artist: any) => artist.name).join(', '),
+                artists: track.artists
+                    .map((artist: any) => artist.name)
+                    .join(", "),
                 albumName: track.album.name,
                 imageUrl: track.album.images[0]?.url,
-                spotifyUrl: track.external_urls.spotify
+                spotifyUrl: track.external_urls.spotify,
             },
             recipientId: matchedUser,
-            sender: 'me'
+            sender: "me",
         };
         setMessages([...messages, trackMessage]);
-        socket.emit('new-message', {
+        socket.emit("new-message", {
             chatRoom: chatRoom,
-            message: trackMessage
+            message: trackMessage,
         });
         setActiveSelector(null);
     };
 
     return (
-        <div className="max-w-2xl mx-auto h-[600px] flex flex-col">
+        <div className="h-full flex flex-col">
             {/* Messages Container */}
-            <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-gray-50">
+            <div className="flex-1 overflow-y-auto p-2 sm:p-4 space-y-4 bg-gray-50">
                 {!chatRoom ? (
                     <div className="h-full flex items-center justify-center">
                         <div className="text-center">
-                            <div className="mb-4">Waiting for a chat partner...</div>
-                            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900 mx-auto"></div>
+                            <p className="mb-2 tracking-tighter opacity-50">
+                                Waiting for a chat partner...
+                            </p>
+                            <Loader2 className="animate-spin rounded-full h-8 w-8 mx-auto text-[#752add] opacity-50" />
                         </div>
                     </div>
                 ) : (
                     <>
                         {messages.map((message, index) => (
-                            <div 
-                                key={index} 
-                                className={`flex ${message.recipientId === matchedUser ? 'justify-end' : 'justify-start'}`}
+                            <div
+                                key={index}
+                                className={`flex ${
+                                    message.recipientId === matchedUser
+                                        ? "justify-end"
+                                        : "justify-start"
+                                }`}
                             >
-                                <div className={`max-w-[70%] rounded-lg shadow ${
-                                    message.recipientId === matchedUser 
-                                        ? 'bg-blue-500 text-white' 
-                                        : 'bg-white text-gray-900'
-                                } ${message.isTrack ? 'p-0 overflow-hidden' : 'p-4'}`}
+                                <div
+                                    className={`max-w-[85%] sm:max-w-[70%] rounded-lg ${
+                                        message.isTrack 
+                                            ? "p-0 m-0 overflow-hidden"
+                                            : `shadow ${
+                                                message.recipientId === matchedUser
+                                                    ? "bg-neutral-900 text-white"
+                                                    : "bg-white text-gray-900"
+                                              } p-3 sm:p-4`
+                                    }`}
                                 >
                                     {message.isTrack ? (
-                                        <iframe 
-                                            style={{ borderRadius: '12px' }} 
-                                            src={`https://open.spotify.com/embed/track/${
-                                                extractSpotifyTrackId(message.trackData?.spotifyUrl || '')
-                                            }?utm_source=generator`}
-                                            width="100%" 
-                                            height="152" 
-                                            frameBorder="0" 
+                                        <iframe
+                                            style={{ borderRadius: "12px" }}
+                                            src={`https://open.spotify.com/embed/track/${extractSpotifyTrackId(
+                                                message.trackData?.spotifyUrl ||
+                                                    ""
+                                            )}?utm_source=generator`}
+                                            width="100%"
+                                            height="100%"
                                             allowFullScreen
-                                            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
+                                            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
                                             loading="lazy"
                                         />
                                     ) : (
@@ -165,55 +185,79 @@ export default function Chat({ socket }: Props) {
                                 </div>
                             </div>
                         ))}
-                        {userLeft && <div className='text-center'>
-                            User left chat.
-                        </div>}
+                        {userLeft && (
+                            <div className="text-center">User left chat.</div>
+                        )}
                     </>
                 )}
             </div>
 
-            {activeSelector === 'search' && (
-                <div className="border-t border-gray-200">
+            <AnimatePresence>
+                {activeSelector === "search" && (
                     <SpotifySearchTracks onTrackSelect={handleTrackSelect} />
-                </div>
-            )}
+                )}
+            </AnimatePresence>
 
             {/* Input Form */}
-            <form onSubmit={handleSubmit} className="p-4 border-t border-gray-200 bg-white">
-                <div className="flex space-x-2">
-                    <div className="flex space-x-2">
-                        <button
+            <form
+                onSubmit={handleSubmit}
+                className="p-2 sm:p-4 border-t border-gray-200 bg-white"
+            >
+                <div className="flex flex-col sm:flex-row gap-2">
+                    <div className="flex justify-between sm:justify-start gap-2">
+                        <Button
                             type="button"
-                            onClick={() => setActiveSelector(activeSelector === 'search' ? null : 'search')}
-                            className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600"
+                            variant="outline"
+                            className={`text-black rounded w-full ${
+                                !chatRoom ? "hover:cursor-not-allowed" : ""
+                            }`}
+                            onClick={handleLeaveChat}
                             disabled={!chatRoom}
                         >
-                            Search Tracks
-                        </button>
+                            Leave chat
+                        </Button>
+                        <Button
+                            type="button"
+                            onClick={() =>
+                                setActiveSelector(
+                                    activeSelector === "search"
+                                        ? null
+                                        : "search"
+                                )
+                            }
+                            className={`text-white rounded w-full ${
+                                !chatRoom ? "hover:cursor-not-allowed" : ""
+                            }`}
+                            disabled={!chatRoom}
+                        >
+                            Send a Track
+                        </Button>
                     </div>
-                    <input
-                        type="text"
-                        value={inputMessage}
-                        onChange={(e) => setInputMessage(e.target.value)}
-                        placeholder="Type your message..."
-                        className="flex-1 p-2 border border-gray-300 rounded"
-                        disabled={!chatRoom}
-                    />
-                    <button
-                        type="submit"
-                        className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
-                        disabled={!chatRoom}
-                    >
-                        Send
-                    </button>
-                    <button
-                        type="button"
-                        className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600"
-                        onClick={handleLeaveChat}
-                        disabled={!chatRoom}
-                    >
-                        Leave chat
-                    </button>
+                    <div className="flex gap-2 flex-1">
+                        <Input
+                            type="text"
+                            value={inputMessage}
+                            onChange={(e) => setInputMessage(e.target.value)}
+                            placeholder={
+                                chatRoom
+                                    ? "Type your message..."
+                                    : "Waiting for a chat partner..."
+                            }
+                            className={`flex-1 border border-gray-300 rounded ${
+                                !chatRoom ? "hover:cursor-not-allowed" : ""
+                            }`}
+                            disabled={!chatRoom}
+                        />
+                        <Button
+                            type="submit"
+                            className={`text-white rounded ${
+                                !chatRoom ? "hover:cursor-not-allowed" : ""
+                            }`}
+                            disabled={!chatRoom}
+                        >
+                            Send
+                        </Button>
+                    </div>
                 </div>
             </form>
         </div>

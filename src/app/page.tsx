@@ -23,9 +23,11 @@ export default function Home() {
     }, []);
 
     return (
-        <div className="p-4 space-y-4">
+        <main className="h-[100dvh] flex flex-col px-2 py-2">
             <Header />
-            {socket && <Chat socket={socket} />}
-        </div>
+            <div className="flex-1 overflow-hidden">
+                {socket && <Chat socket={socket} />}
+            </div>
+        </main>
     );
 }
