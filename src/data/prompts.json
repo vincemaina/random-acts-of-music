@@ -1,0 +1,92 @@
+{
+    "prompts": {
+        "personal_connection": {
+            "name": "Personal Connection",
+            "prompts": [
+                "Share a song that reminds you of your childhood",
+                "What's a song that always makes you feel better when you're down?",
+                "Share a song that tells your life story",
+                "What's the first concert you ever attended? Share a song from that artist",
+                "Share a song that makes you think of someone special",
+                "What's a song that changed how you think about music?"
+            ]
+        },
+        "musical_discovery": {
+            "name": "Musical Discovery",
+            "prompts": [
+                "Share your favorite underrated artist",
+                "What's a song from a genre you usually don't listen to, but love anyway?",
+                "Share a song from your country/region that everyone should know",
+                "What's a cover song that's better than the original?",
+                "Share a song that was released this year that you think will be a classic",
+                "What's the most unique song in your playlist?"
+            ]
+        },
+        "emotional": {
+            "name": "Emotional",
+            "prompts": [
+                "Share a song that makes you want to dance no matter what",
+                "What song never fails to give you goosebumps?",
+                "Share a song that makes you cry (in a good way)",
+                "What's your go-to karaoke song?",
+                "Share a song that motivates you",
+                "What's a song that brings back strong memories?"
+            ]
+        },
+        "discussion_starters": {
+            "name": "Discussion Starters",
+            "prompts": [
+                "Share a song with lyrics that hit different after you learned their meaning",
+                "What's a song everyone loves that you can't stand?",
+                "Share a \"guilty pleasure\" song from your playlist",
+                "What's a song you think deserves more recognition?",
+                "Share a song with an amazing music video",
+                "What's a song that perfectly captures a specific emotion?"
+            ]
+        },
+        "situational": {
+            "name": "Situational",
+            "prompts": [
+                "Share your favorite road trip song",
+                "What's your go-to workout track?",
+                "Share a song perfect for a rainy day",
+                "What's your favorite song to cook to?",
+                "Share a song that helps you focus while working/studying",
+                "What's your perfect sunset song?"
+            ]
+        },
+        "fun_challenges": {
+            "name": "Fun Challenges",
+            "prompts": [
+                "Share a song using only emojis and let the other person guess",
+                "Pick a year and share your favorite song from then",
+                "Share a song with no words that tells a story",
+                "What's a song with your favorite instrumental break?",
+                "Share a song where the title doesn't appear in the lyrics",
+                "Find a song you both know and share your different interpretations"
+            ]
+        },
+        "deep_dive": {
+            "name": "Deep Dive",
+            "prompts": [
+                "Share a song and explain exactly what makes it special to you",
+                "What's a song that represents a turning point in music history?",
+                "Share a song that showcases exceptional musicianship",
+                "What's a song that perfectly captures its era?",
+                "Share a song that tells a great story",
+                "What's a song with production that amazes you?"
+            ]
+        },
+        "ice_breaker_games": {
+            "name": "Ice Breaker Games",
+            "prompts": [
+                "\"Speed Round\": Share songs back and forth in specific categories (happy songs, sad songs, etc.)",
+                "\"Musical Time Machine\": Take turns sharing songs from different decades",
+                "\"Genre Challenge\": Share songs from genres outside your comfort zone",
+                "\"Six Degrees\": Connect two completely different songs through a chain of related tracks",
+                "\"Soundtrack of Your Life\": Share songs that represent different chapters of your life",
+                "\"Musical Would You Rather\": Present two songs/artists and discuss preferences"
+            ]
+        }
+    }
+}
