@@ -2,6 +2,7 @@
 
 import Chat from "@/components/chat/chat";
 import Header from "@/components/landing/header";
+import Waiting from "@/components/waiting/waiting";
 import { useEffect, useState } from "react";
 import { io, Socket } from "socket.io-client";
 
@@ -36,14 +37,12 @@ export default function Home() {
         };
     }, []);
 
-    if (!socket) return <>Connecting...</>
-    if (!chatRoom) return <>Waiting for friends...</>
+    if (!socket) return <Waiting text="Connecting" />
+    if (!chatRoom) return <Waiting  />
 
     return (
         <div className="p-4 space-y-4">
             <Header />
-            {/* <div>Chat room name: {chatRoom}</div>
-            <div>Chatting with: {matchedUser}</div> */}
             <Chat chatRoom={chatRoom} recipientId={matchedUser} socket={socket}/>
         </div>
     );
