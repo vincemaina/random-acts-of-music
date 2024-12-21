@@ -19,10 +19,13 @@ export default function RootLayout({
                     src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8618892618587385"
                     crossOrigin="anonymous"
                 />
+                <script
+                    defer
+                    src="https://cloud.umami.is/script.js"
+                    data-website-id="5ee1a1e6-1fcb-497e-aee2-31ed88d22638"
+                ></script>
             </head>
-            <body>
-                {children}
-            </body>
+            <body>{children}</body>
         </html>
     );
 }
