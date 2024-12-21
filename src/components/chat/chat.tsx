@@ -211,7 +211,7 @@ export default function Chat({ socket }: Props) {
                         <Button
                             type="button"
                             variant="outline"
-                            className={`text-black rounded w-full ${
+                            className={`text-black rounded w-full ${userLeft ? "bg-red-500 text-white" : ""} ${
                                 !chatRoom ? "hover:cursor-not-allowed" : ""
                             }`}
                             onClick={handleLeaveChat}
@@ -229,9 +229,9 @@ export default function Chat({ socket }: Props) {
                                 )
                             }
                             className={`text-white rounded w-full ${
-                                !chatRoom ? "hover:cursor-not-allowed" : ""
+                                !chatRoom || userLeft ? "hover:cursor-not-allowed" : ""
                             }`}
-                            disabled={!chatRoom}
+                            disabled={!chatRoom || userLeft}
                         >
                             Send a Track
                         </Button>
@@ -249,14 +249,14 @@ export default function Chat({ socket }: Props) {
                             className={`flex-1 border border-gray-300 rounded ${
                                 !chatRoom ? "hover:cursor-not-allowed" : ""
                             }`}
-                            disabled={!chatRoom}
+                            disabled={!chatRoom || userLeft}
                         />
                         <Button
                             type="submit"
                             className={`text-white rounded ${
                                 !chatRoom ? "hover:cursor-not-allowed" : ""
                             }`}
-                            disabled={!chatRoom}
+                            disabled={!chatRoom || userLeft}
                         >
                             Send
                         </Button>
