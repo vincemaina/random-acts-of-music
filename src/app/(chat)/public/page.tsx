@@ -10,7 +10,7 @@ if (!wsHost) {
     throw new Error("No env var provided for web socket host");
 }
 
-export default function RandomChatPage() {
+export default function PublicChatPage() {
     const [socket, setSocket] = useState<Socket>();
 
     useEffect(() => {
