@@ -20,10 +20,8 @@ export default function RootLayout({
                     crossOrigin="anonymous"
                 />
             </head>
-            <body className="flex flex-col md:flex-row">
-                <div className="h-[100px] md:h-auto md:w-[200px] p-2 bg-gray-50"></div>
-                <main className="flex-auto">{children}</main>
-                <div className="h-[100px] md:h-auto md:w-[200px] p-2 bg-gray-50 hidden lg:block"></div>
+            <body>
+                {children}
             </body>
         </html>
     );
