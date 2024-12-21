@@ -22,13 +22,15 @@ interface Message {
 interface Props {
     chatRoom: string;
     recipientId: string;
-    socket: Socket
+    socket: Socket;
+    onLeaveChat: () => void; // Callback for when the user leaves the chat
 }
 
 export default function Chat(props: Props) {
     const [messages, setMessages] = useState<Message[]>([]);
     const [inputMessage, setInputMessage] = useState('');
     const [activeSelector, setActiveSelector] = useState<'top' | 'search' | null>(null);
+    const [userLeft, setUserLeft] = useState<boolean>(false);
 
     // Send a new message
     const handleSubmit = (e: FormEvent) => {
@@ -81,9 +83,16 @@ export default function Chat(props: Props) {
             setMessages(prevMessages => [...prevMessages, message]);
         })
 
+        // Listen for user left message
+        props.socket.on('user-left', (userId: string) => {
+            console.log(`${userId} left the chat.`);
+            setUserLeft(true);
+        });
+
         // Cleanup when component unmounts
         return () => {
             props.socket.off('new-message');
+            props.socket.off('user-left');
         };
     }, []);
 
@@ -127,6 +136,9 @@ export default function Chat(props: Props) {
                         </div>
                     </div>
                 ))}
+                {userLeft && <div className='text-center'>
+                    User left chat.
+                </div>}
             </div>
 
             {activeSelector === 'search' && (
@@ -159,6 +171,13 @@ export default function Chat(props: Props) {
                         className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
                     >
                         Send
+                    </button>
+                    <button
+                        type="button"
+                        className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600"
+                        onClick={() => props.onLeaveChat()}
+                    >
+                        Leave chat
                     </button>
                 </div>
             </form>

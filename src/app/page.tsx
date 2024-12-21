@@ -43,7 +43,18 @@ export default function Home() {
     return (
         <div className="p-4 space-y-4">
             <Header />
-            <Chat chatRoom={chatRoom} recipientId={matchedUser} socket={socket}/>
+            <div>Chat room name: {chatRoom}</div>
+            <div>Chatting with: {matchedUser}</div>
+            <Chat
+                chatRoom={chatRoom}
+                recipientId={matchedUser}
+                socket={socket}
+                onLeaveChat={() => {
+                    socket.emit('leave-chat', { chatRoom });
+                    setChatRoom(null);
+                    setMatchedUser("");
+                }}
+            />
         </div>
     );
 }

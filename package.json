@@ -3,8 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "ws-server": "node websocket/server.js",
-    "dev": "concurrently \"next dev\" \"node websocket/server.js\"",
+    "ws-server": "node websocket-server/server.js",
+    "dev": "concurrently \"next dev\" \"node websocket-server/server.js\"",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
