@@ -38,11 +38,16 @@ export default function Chat({ socket }: Props) {
     >(null);
     const [userLeft, setUserLeft] = useState<boolean>(false);
 
+    // Add new Audio object
+    const alertSound = new Audio("/alert.mp3");
+
     useEffect(() => {
         // When the user is matched, receive the chat room and the other user
         socket.on("matched", (data) => {
             setChatRoom(data.chatRoom);
             setMatchedUser(data.userId);
+            // Play the alert sound
+            alertSound.play().catch(err => console.log("Error playing sound:", err));
             console.log(
                 `Matched with user ${data.userId} in room ${data.chatRoom}`
             );
