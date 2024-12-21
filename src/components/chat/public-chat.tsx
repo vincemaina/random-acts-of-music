@@ -18,6 +18,8 @@ interface Message {
         spotifyUrl: string;
     };
     sender?: string;
+    userName?: string;
+    userId?: string;
 }
 
 interface Props {
@@ -125,6 +127,8 @@ export default function PublicChat({ socket }: Props) {
                                             } p-3 sm:p-4`
                                         }`}
                                 >
+                                    {/* @ts-ignore */}
+                                    {message.userName}
                                     {message.isTrack ? (
                                         <iframe
                                             style={{ borderRadius: "12px" }}
