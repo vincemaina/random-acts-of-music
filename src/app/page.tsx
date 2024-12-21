@@ -23,11 +23,11 @@ export default function Home() {
     }, []);
 
     return (
-        <main className="h-[100dvh] flex flex-col px-2 py-2">
+        <div className="h-[100dvh] flex flex-col px-2 py-2">
             <Header />
             <div className="flex-1 overflow-hidden">
                 {socket && <Chat socket={socket} />}
             </div>
-        </main>
+        </div>
     );
 }
