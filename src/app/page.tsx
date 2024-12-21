@@ -11,6 +11,7 @@ export default function HomePage() {
                 muted
                 playsInline
                 poster="/poster.jpg"
+                preload="none"
                 className="absolute top-0 left-0 w-full h-full object-cover blur-xl scale-105 z-0"
             >
                 <source src="/video.mp4" type="video/mp4" />
