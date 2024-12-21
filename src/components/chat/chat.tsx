@@ -144,7 +144,10 @@ export default function Chat({ socket }: Props) {
                             <Loader2 className="animate-spin rounded-full h-8 w-8 mx-auto text-[#752add] opacity-50" />
                         </div>
                     </div>
-                ) : (
+                ) : messages.length == 0 && !userLeft ? (<div className="flex flex-col items-center justify-center h-full">
+                    <div className="font-bold">New chat partner connected</div>
+                    <div>Start by sending a message or prompt below</div>
+                </div>) : (
                     <>
                         {messages.map((message, index) => (
                             <div
