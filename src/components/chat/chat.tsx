@@ -6,11 +6,13 @@ import { type Socket } from "socket.io-client";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { Loader2 } from "lucide-react";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence } from "framer-motion";
+import PromptSelector from "@/app/(chat)/random/prompt";
 
 interface Message {
     content: string;
     isTrack?: boolean;
+    isPrompt?: boolean;
     trackData?: {
         name: string;
         artists: string;
@@ -32,15 +34,20 @@ export default function Chat({ socket }: Props) {
     const [messages, setMessages] = useState<Message[]>([]);
     const [inputMessage, setInputMessage] = useState("");
     const [activeSelector, setActiveSelector] = useState<
-        "top" | "search" | null
+        "top" | "search" | "prompt" | null
     >(null);
     const [userLeft, setUserLeft] = useState<boolean>(false);
+
+    // Add new Audio object
+    const alertSound = new Audio("/alert.mp3");
 
     useEffect(() => {
         // When the user is matched, receive the chat room and the other user
         socket.on("matched", (data) => {
             setChatRoom(data.chatRoom);
             setMatchedUser(data.userId);
+            // Play the alert sound
+            alertSound.play().catch(err => console.log("Error playing sound:", err));
             console.log(
                 `Matched with user ${data.userId} in room ${data.chatRoom}`
             );
@@ -183,7 +190,16 @@ export default function Chat({ socket }: Props) {
                                             loading="lazy"
                                         />
                                     ) : (
-                                        <p>{message.content}</p>
+                                        <div className="relative">
+                                            <p className={message.isPrompt ? "pr-2" : ""}>
+                                                {message.content}
+                                            </p>
+                                            {message.isPrompt && (
+                                                <div className="mt-2 bg-[#752add] text-white text-xs px-1.5 py-0.5 rounded-md shadow-[0_0_10px_rgba(117,42,221,0.5)]">
+                                                    Prompt
+                                                </div>
+                                            )}
+                                        </div>
                                     )}
                                 </div>
                             </div>
@@ -198,6 +214,26 @@ export default function Chat({ socket }: Props) {
             <AnimatePresence>
                 {activeSelector === "search" && (
                     <SpotifySearchTracks onTrackSelect={handleTrackSelect} />
+                )}
+                {activeSelector === "prompt" && (
+                    <PromptSelector 
+                        onPromptSelect={(prompt) => {
+                            if (prompt) {
+                                const message: Message = {
+                                    content: prompt,
+                                    isPrompt: true,
+                                    recipientId: matchedUser,
+                                    sender: "me",
+                                };
+                                setMessages([...messages, message]);
+                                socket.emit("new-message", {
+                                    chatRoom: chatRoom,
+                                    message,
+                                });
+                            }
+                            setActiveSelector(null);
+                        }} 
+                    />
                 )}
             </AnimatePresence>
 
@@ -221,13 +257,17 @@ export default function Chat({ socket }: Props) {
                         </Button>
                         <Button
                             type="button"
-                            onClick={() =>
-                                setActiveSelector(
-                                    activeSelector === "search"
-                                        ? null
-                                        : "search"
-                                )
-                            }
+                            onClick={() => setActiveSelector(activeSelector === "prompt" ? null : "prompt")}
+                            className={`text-white rounded w-full bg-[#752add] hover:bg-[#8c44ff] transition-all duration-300 ${
+                                !chatRoom || userLeft ? "hover:cursor-not-allowed" : ""
+                            }`}
+                            disabled={!chatRoom || userLeft}
+                        >
+                            Get Prompt
+                        </Button>
+                        <Button
+                            type="button"
+                            onClick={() => setActiveSelector(activeSelector === "search" ? null : "search")}
                             className={`text-white rounded w-full ${
                                 !chatRoom || userLeft ? "hover:cursor-not-allowed" : ""
                             }`}
