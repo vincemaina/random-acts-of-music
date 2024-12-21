@@ -75,6 +75,7 @@ export default function Chat({ socket }: Props) {
         setChatRoom(null);
         setMatchedUser("");
         setMessages([]);
+        setUserLeft(false);
     };
 
     const handleSubmit = (e: FormEvent) => {
