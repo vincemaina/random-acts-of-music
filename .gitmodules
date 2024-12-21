@@ -1,3 +1,6 @@
 [submodule "websocket-server"]
 	path = websocket-server
-	url = git@github.com:vincemaina/random-acts-of-music-ws.git
+	url = https://github.com/vincemaina/random-acts-of-music-ws.git
+[submodule "random-acts-of-music-ws"]
+	path = random-acts-of-music-ws
+	url = https://github.com/vincemaina/random-acts-of-music-ws.git
