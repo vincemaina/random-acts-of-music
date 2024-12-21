@@ -28,12 +28,20 @@ export default function HomePage() {
                 </h1>
                 <h2 className="text-2xl mb-5">Discover new music. Meet new people. One random chat at a time.</h2>
 
-                <Link
-                    href="/random"
-                    className="bg-purple-800 text-white font-semibold py-3 px-6 rounded-full hover:bg-blue-700 transition mt-10"
-                >
-                    Start Chatting Now
-                </Link>
+                <div className="flex gap-2 items-center">
+                    <Link
+                        href="/random"
+                        className="bg-purple-800 text-white font-semibold py-3 px-6 rounded-full hover:bg-blue-700 transition mt-10"
+                    >
+                        Find random chat
+                    </Link>
+                    <Link
+                        href="/public"
+                        className="bg-blue-800 text-white font-semibold py-3 px-6 rounded-full hover:bg-blue-700 transition mt-10"
+                    >
+                        Join public chat
+                    </Link>
+                </div>
 
                 <p className="mt-4 text-sm text-gray-100">
                     It’s free, it’s fun, and your next favorite song might be just one chat away.

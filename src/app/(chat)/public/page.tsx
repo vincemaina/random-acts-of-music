@@ -1,6 +1,6 @@
 "use client";
 
-import Chat from "@/components/chat/chat";
+import PublicChat from "@/components/chat/public-chat";
 import { useEffect, useState } from "react";
 import { io, Socket } from "socket.io-client";
 
@@ -23,7 +23,7 @@ export default function PublicChatPage() {
 
     return (
         <div className="flex-1 overflow-hidden">
-            {socket && <Chat socket={socket} />}
+            {socket && <PublicChat socket={socket} />}
         </div>
     );
 }
