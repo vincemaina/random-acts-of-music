@@ -4,3 +4,5 @@
 - [ ] Fix bad words filter
 - [ ] Request ad sense approval
 - [ ] Colour messages in public chat
+- [ ] Fix iframe reloading on every message
+- [ ] Possibly add persistent chat for public chat

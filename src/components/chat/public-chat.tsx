@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, FormEvent, useEffect } from "react";
+import { useState, FormEvent, useEffect, useRef } from "react";
 import SpotifySearchTracks from "../landing/spotify-search-tracks";
 import { type Socket } from "socket.io-client";
 import { Button } from "../ui/button";
@@ -33,6 +33,10 @@ export default function PublicChat({ socket }: Props) {
     const [inputMessage, setInputMessage] = useState("");
     const [activeSelector, setActiveSelector] = useState<"search" | null>(null);
     const [showAlert, setShowAlert] = useState(false);
+    const [isCooldown, setIsCooldown] = useState(false); // Cooldown flag
+    const [cooldownTime, setCooldownTime] = useState(0); // Cooldown timer display
+
+    const messageTimes = useRef<number[]>([]); // Store message timestamps
 
     useEffect(() => {
 
@@ -68,6 +72,45 @@ export default function PublicChat({ socket }: Props) {
         };
     }, [socket]);
 
+    // Cooldown Countdown
+    useEffect(() => {
+        if (isCooldown) {
+            const interval = setInterval(() => {
+                setCooldownTime((prev) => {
+                    if (prev <= 1) {
+                        clearInterval(interval);
+                        setIsCooldown(false);
+                        return 0;
+                    }
+                    return prev - 1;
+                });
+            }, 1000);
+
+            return () => clearInterval(interval);
+        }
+    }, [isCooldown]);
+
+    // Handle Rate Limiting
+    const canSendMessage = (): boolean => {
+        const now = Date.now();
+        const windowDuration = 10 * 1000; // 10 seconds window
+        const maxMessages = 5; // Max 5 messages per 10 seconds
+
+        // Remove old timestamps
+        messageTimes.current = messageTimes.current.filter(
+            (timestamp) => now - timestamp < windowDuration
+        );
+
+        if (messageTimes.current.length >= maxMessages) {
+            setIsCooldown(true);
+            setCooldownTime(10); // Start a 10-second cooldown
+            return false;
+        }
+
+        messageTimes.current.push(now);
+        return true;
+    };
+
     // Helper function to extract Spotify Track ID
     const extractSpotifyTrackId = (url: string): string | null => {
         const match = url.match(/track\/([a-zA-Z0-9]+)/);
@@ -77,7 +120,12 @@ export default function PublicChat({ socket }: Props) {
     // Send a text message
     const handleSubmit = (e: FormEvent) => {
         e.preventDefault();
+        if (isCooldown) return;
+
         if (inputMessage.trim()) {
+            if (!canSendMessage()) {
+                return;
+            }
             const message: Message = {
                 content: inputMessage
             };
@@ -106,6 +154,10 @@ export default function PublicChat({ socket }: Props) {
                 spotifyUrl: track.external_urls.spotify,
             },
         };
+
+        if (!canSendMessage()) {
+            return;
+        }
 
         // setMessages([...messages, trackMessage]);
         socket.emit("public-message", { message: trackMessage });
@@ -208,6 +260,7 @@ export default function PublicChat({ socket }: Props) {
                             )
                         }
                         className="text-white rounded"
+                        disabled={isCooldown}
                     >
                         Send a Track
                     </Button>
@@ -218,8 +271,10 @@ export default function PublicChat({ socket }: Props) {
                             onChange={(e) => setInputMessage(e.target.value)}
                             placeholder="Type your message..."
                             className="flex-1 border border-gray-300 rounded"
+                            disabled={isCooldown}
+                            title={isCooldown ? `Cooldown` : undefined}
                         />
-                        <Button type="submit" className="text-white rounded">
+                        <Button type="submit" className="text-white rounded" disabled={isCooldown}>
                             Send
                         </Button>
                     </div>
