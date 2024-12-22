@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Input } from '../ui/input';
 
 interface Track {
@@ -26,15 +26,31 @@ export default function SpotifySearchTracks({ onTrackSelect }: Props) {
     const [error, setError] = useState<string | null>(null);
     const [isLoading, setIsLoading] = useState(false);
 
-    const handleSearch = async (query: string) => {
+    const debounceTimeout = useRef<NodeJS.Timeout | null>(null);
+
+    const handleSearch = (query: string) => {
         setSearchQuery(query);
-        
+
+        // Clear previous timeout
+        if (debounceTimeout.current) {
+            clearTimeout(debounceTimeout.current);
+        }
+
+        // Set a new timeout
+        debounceTimeout.current = setTimeout(() => {
+            fetchTracks(query);
+        }, 500); // 500ms debounce delay
+    };
+
+    const fetchTracks = async (query: string) => {
         if (!query.trim()) {
             setTracks([]);
             return;
         }
 
         setIsLoading(true);
+        setError(null);
+
         try {
             const response = await fetch(`/api/search-spotify?q=${encodeURIComponent(query)}`);
             if (!response.ok) throw new Error('Failed to search tracks');
@@ -47,6 +63,15 @@ export default function SpotifySearchTracks({ onTrackSelect }: Props) {
             setIsLoading(false);
         }
     };
+
+    // Cleanup on unmount
+    useEffect(() => {
+        return () => {
+            if (debounceTimeout.current) {
+                clearTimeout(debounceTimeout.current);
+            }
+        };
+    }, []);
 
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 animate-in fade-in duration-200">
@@ -62,11 +87,11 @@ export default function SpotifySearchTracks({ onTrackSelect }: Props) {
                         </svg>
                     </button>
                 )}
-                
+
                 <h2 className="text-base sm:text-lg md:text-2xl font-black mb-3 sm:mb-4 text-left text-white">
                     SEARCH <span className="text-[#752add]">TRACKS</span>
                 </h2>
-                
+
                 <div className="mb-4 sm:mb-6">
                     <Input
                         type="text"
