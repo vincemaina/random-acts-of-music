@@ -46,6 +46,7 @@ export default function PublicChat({ socket }: Props) {
 
         return () => {
             socket.emit("leave-room", { room: "public-room" });
+            socket.off("connect");
             socket.off("public-messages");
             socket.off("public-message");
         };
@@ -64,7 +65,7 @@ export default function PublicChat({ socket }: Props) {
             const message: Message = {
                 content: inputMessage
             };
-            setMessages([...messages, message]);
+            // setMessages([...messages, message]);
             socket.emit("public-message", { message });
             setInputMessage("");
         }
@@ -91,7 +92,7 @@ export default function PublicChat({ socket }: Props) {
             },
         };
 
-        setMessages([...messages, trackMessage]);
+        // setMessages([...messages, trackMessage]);
         socket.emit("public-message", { message: trackMessage });
         setActiveSelector(null);
     };
@@ -113,7 +114,7 @@ export default function PublicChat({ socket }: Props) {
                         {messages.map((message, index) => (
                             <div
                                 key={index}
-                                className={`flex ${message.sender === "me"
+                                className={`flex ${message.userId === socket.id
                                         ? "justify-end"
                                         : "justify-start"
                                     }`}
@@ -121,10 +122,10 @@ export default function PublicChat({ socket }: Props) {
                                 <div
                                     className={`max-w-[85%] sm:max-w-[70%] rounded-lg ${message.isTrack
                                             ? "p-0 m-0 overflow-hidden"
-                                            : `shadow ${message.sender === "me"
+                                            : `shadow ${message.userId === socket.id
                                                 ? "bg-neutral-900 text-white"
                                                 : "bg-white text-gray-900"
-                                            } p-3 sm:p-4`
+                                            } py-1.5 px-2.5`
                                         }`}
                                 >
                                     {/* @ts-ignore */}
