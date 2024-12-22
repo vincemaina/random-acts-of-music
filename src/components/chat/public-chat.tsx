@@ -80,7 +80,7 @@ export default function PublicChat({ socket }: Props) {
         e.preventDefault();
         if (inputMessage.trim()) {
             const isClean = censorMessage(inputMessage);
-            
+
             if (!isClean) {
                 setShowAlert(true);
                 return;
@@ -127,6 +127,7 @@ export default function PublicChat({ socket }: Props) {
                 onClose={() => setShowAlert(false)}
                 message="Honestly, grow up."
             />
+
             {/* Messages Container */}
             <div className="flex-1 overflow-y-auto p-2 sm:p-4 space-y-2 bg-gray-50">
                 {messages.length === 0 ? (
@@ -139,47 +140,62 @@ export default function PublicChat({ socket }: Props) {
                     </div>
                 ) : (
                     <>
-                        {messages.map((message, index) => (
-                            <div
-                                key={index}
-                                className={`flex ${message.userName === getUsername()
-                                        ? "justify-end"
-                                        : "justify-start"
-                                    }`}
-                            >
-                                <div
-                                    className={`max-w-[85%] sm:max-w-[70%] rounded-lg ${message.isTrack
-                                            ? "p-0 m-0 overflow-hidden"
-                                            : `shadow ${message.userName === getUsername()
-                                                ? "bg-neutral-900 text-white"
-                                                : "bg-white text-gray-900"
-                                            } py-1.5 px-2.5`
-                                        }`}
-                                >
-                                    {/* @ts-ignore */}
-                                    {message.userName}
-                                    {message.isTrack ? (
-                                        <iframe
-                                            style={{ borderRadius: "12px" }}
-                                            src={`https://open.spotify.com/embed/track/${extractSpotifyTrackId(
-                                                message.trackData?.spotifyUrl ||
-                                                ""
-                                            )}?utm_source=generator`}
-                                            width="100%"
-                                            height="100%"
-                                            allowFullScreen
-                                            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-                                            loading="lazy"
-                                        />
-                                    ) : (
-                                        <p>{message.content}</p>
+                        {messages.map((message, index) => {
+                            const isSameUserAsPrevious =
+                                index > 0 && messages[index - 1].userName === message.userName;
+
+                            return (
+                                <div key={index} className="space-y-0.5">
+                                    {/* Show username above bubble if it's a new user group */}
+                                    {!isSameUserAsPrevious && (
+                                        <p
+                                            className={`text-xs font-medium ${index !== 0 ? "mt-10" : ""} ${message.userName === getUsername()
+                                                    ? "text-right text-gray-500"
+                                                    : "text-left text-gray-700"
+                                                }`}
+                                        >
+                                            {message.userName}
+                                        </p>
                                     )}
+                                    <div
+                                        className={`flex text-sm ${message.userName === getUsername()
+                                                ? "justify-end"
+                                                : "justify-start"
+                                            }`}
+                                    >
+                                        <div
+                                            className={`max-w-[85%] sm:max-w-[70%] rounded-lg ${message.isTrack
+                                                    ? "p-0 m-0 overflow-hidden"
+                                                    : `shadow ${message.userName === getUsername()
+                                                        ? "bg-neutral-900 text-white"
+                                                        : "bg-white text-gray-900"
+                                                    } py-1.5 px-2.5`
+                                                }`}
+                                        >
+                                            {message.isTrack ? (
+                                                <iframe
+                                                    style={{ borderRadius: "12px" }}
+                                                    src={`https://open.spotify.com/embed/track/${extractSpotifyTrackId(
+                                                        message.trackData?.spotifyUrl || ""
+                                                    )}?utm_source=generator`}
+                                                    width="100%"
+                                                    height="100%"
+                                                    allowFullScreen
+                                                    allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+                                                    loading="lazy"
+                                                />
+                                            ) : (
+                                                <p>{message.content}</p>
+                                            )}
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                        ))}
+                            );
+                        })}
                     </>
                 )}
             </div>
+
 
             <AnimatePresence>
                 {activeSelector === "search" && (
