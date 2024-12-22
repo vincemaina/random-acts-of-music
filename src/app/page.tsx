@@ -13,7 +13,7 @@ export default function HomePage() {
                 playsInline
                 poster="/poster.jpg"
                 preload="none"
-                className="absolute top-0 left-0 w-full h-full object-cover blur-lg scale-105 z-0"
+                className="absolute top-0 left-0 w-full h-full object-cover blur-lg scale-105 z-0 brightness-50 saturate-150"
             >
                 <source src="/video.mp4" type="video/mp4" />
                 Your browser does not support the video tag.
@@ -37,13 +37,10 @@ export default function HomePage() {
                     <Link href="/contact" className="text-white/70 hover:text-white transition-colors">
                         Contact
                     </Link>
-                    <Link href="/help" className="text-white/70 hover:text-white transition-colors">
-                        Help
-                    </Link>
                 </nav>
             </header>
 
-            {/* Hero Section - Updated with responsive classes */}
+            {/* Hero Section */}
             <section className="relative z-20 flex flex-col items-center justify-center text-center h-full px-4 max-w-5xl mx-auto">
                 {/* <Badge
                     variant="outline"
@@ -59,13 +56,13 @@ export default function HomePage() {
                     </span>
                 </h1>
 
-                <p className="text-center mx-auto max-w-xs sm:max-w-full">
-                    <span className="text-sm md:text-2xl opacity-50">
+                <p className="hidden md:block text-center mx-auto max-w-xs sm:max-w-full">
+                    <span className="text-sm md:text-xl opacity-50 tracking-tighter">
                         Discover new music. Meet new people. One random chat at a time.
                     </span>
                 </p>
 
-                <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 max-w-md mx-auto justify-center mt-10">
+                <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 max-w-md mx-auto justify-center mt-4">
                     <Link href="/random" className="flex-1 sm:flex-initial">
                         <Button className="w-full bg-[#752add] hover:bg-[#8c44ff] transition-all duration-300 text-sm">
                             <span className="bg-green-500 rounded-full w-2 h-2 animate-pulse" />{" "}
