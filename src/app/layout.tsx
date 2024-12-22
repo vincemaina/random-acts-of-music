@@ -1,5 +1,11 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import { Outfit } from 'next/font/google'
+
+const outfit = Outfit({
+    subsets: ['latin'],
+    // weight: ["100"]
+})
 
 export const metadata: Metadata = {
     title: "Random Acts of Music",
@@ -12,7 +18,7 @@ export default function RootLayout({
     children: React.ReactNode;
 }>) {
     return (
-        <html lang="en">
+        <html lang="en" className={outfit.className}>
             <head>
                 <script
                     async
