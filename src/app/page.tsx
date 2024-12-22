@@ -45,33 +45,27 @@ export default function HomePage() {
             <section className="relative z-20 flex flex-col items-center justify-center text-center h-full px-4 max-w-5xl mx-auto">
                 <Badge
                     variant="outline"
-                    className="bg-white/10 backdrop-blur-sm hover:bg-white/20 text-white hover:text-white border-white/30 transition-all duration-300 text-xs md:text-sm mb-4"
+                    className="bg-white/10 backdrop-blur-sm hover:bg-white/20 text-white hover:text-white border-white/30 transition-all duration-300 text-xs md:text-sm mb-4 hidden md:block"
                 >
-                    <span className="bg-green-500 rounded-full w-2 h-2 animate-pulse mr-1" />{" "}
-                    We're the number one chat room on the internet.
+                    The chat app for music lover. No sign up required. 😰
                 </Badge>
-                <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold mb-4 md:mb-4 tracking-tight max-w-4xl mx-auto">
+                <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold mb-4 md:mb-4 tracking-tighter mx-auto">
                     RANDOM ACTS OF{" "}
-                    <span className="text-purple-500 drop-shadow-glow">
+                    <span className=" drop-shadow-glow relative px-2">
+                        <span className="absolute inset-0 bg-[#752add] backdrop-blur-md rounded-lg -z-10"></span>
                         MUSIC
                     </span>
                 </h1>
 
-                <p className="text-center max-w-2xl mx-auto tracking-tighter">
-                    <span className="font-bold text-sm md:text-lg opacity-50 md:opacity-100">
-                        Discover new music. Meet new people. One random chat at
-                        a time.
-                    </span>
-                    <br />
-                    <span className="text-sm md:text-lg opacity-50 md:block hidden">
-                        It's free, it's fun, and your next favorite song might
-                        be just one chat away.
+                <p className="text-center max-w-[200px] md:max-w-2xl mx-auto tracking-tighter hidden md:block">
+                    <span className="text-sm md:text-lg opacity-50">
+                        Discover new music. Meet new people. One random chat at a time.
                     </span>
                 </p>
 
-                <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 max-w-md mx-auto justify-center mt-4">
+                <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 max-w-md mx-auto justify-center mt-2">
                     <Link href="/random" className="flex-1 sm:flex-initial">
-                        <Button className="w-full bg-[#752add] hover:bg-[#8c44ff] transition-all duration-300 text-md">
+                        <Button className="w-full bg-[#752add] hover:bg-[#8c44ff] transition-all duration-300 text-sm">
                             <span className="bg-green-500 rounded-full w-2 h-2 animate-pulse" />{" "}
                             Find random chat
                         </Button>
@@ -79,13 +73,26 @@ export default function HomePage() {
                     <Link href="/public" className="flex-1">
                         <Button
                             variant="outline"
-                            className="w-full bg-white/10 backdrop-blur-sm hover:bg-white/20 text-white hover:text-white border-white/30 transition-all duration-300 text-md"
+                            className="w-full bg-white/10 backdrop-blur-sm hover:bg-white/20 text-white hover:text-white border-white/30 transition-all duration-300 text-sm"
                         >
                             Join public chat
                         </Button>
                     </Link>
                 </div>
             </section>
+
+            <footer className="absolute bottom-0 left-0 w-full overflow-hidden z-20 py-4 bg-white/5 backdrop-blur-sm">
+                <div className="animate-marquee whitespace-nowrap">
+                    <span className="mx-4 text-xs text-white/70">🎵 Connect through music</span>
+                    <span className="mx-4 text-xs text-white/70">🎧 Share your favorite songs</span>
+                    <span className="mx-4 text-xs text-white/70">🎸 Discover new artists</span>
+                    <span className="mx-4 text-xs text-white/70">🎼 Make friends worldwide</span>
+                    <span className="mx-4 text-xs text-white/70">🎵 Connect through music</span>
+                    <span className="mx-4 text-xs text-white/70">🎧 Share your favorite songs</span>
+                    <span className="mx-4 text-xs text-white/70">🎸 Discover new artists</span>
+                    <span className="mx-4 text-xs text-white/70">🎼 Make friends worldwide</span>
+                </div>
+            </footer>
         </div>
     );
 }
