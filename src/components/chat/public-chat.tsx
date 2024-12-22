@@ -8,6 +8,7 @@ import { Input } from "../ui/input";
 import { AnimatePresence } from "framer-motion";
 import { CustomAlert } from "../custom-alert";
 import { getSessionId, getUsername, setUsername } from "@/lib/auth";
+import { hashStringToColor } from "@/lib/username-colours";
 
 interface Message {
     content: string;
@@ -192,10 +193,11 @@ export default function PublicChat({ socket }: Props) {
                                     {/* Show username above bubble if it's a new user group */}
                                     {!isSameUserAsNext && (
                                         <p
-                                            className={`text-xs font-medium ${index !== messages.length - 1 ? "mt-10" : ""} ${message.userName === getUsername()
+                                            className={`text-xs font-semibold italic mx-1 mb-1.5 ${index !== messages.length - 1 ? "mt-10" : ""} ${message.userName === getUsername()
                                                     ? "text-right text-gray-500"
                                                     : "text-left text-gray-700"
                                                 }`}
+                                            style={{color: hashStringToColor(message.userName!)}}
                                         >
                                             {message.userName}
                                         </p>
@@ -207,13 +209,17 @@ export default function PublicChat({ socket }: Props) {
                                             }`}
                                     >
                                         <div
-                                            className={`max-w-[85%] sm:max-w-[70%] rounded-lg ${message.isTrack
+                                            className={`max-w-[85%] sm:max-w-[70%] rounded-lg shadow ${message.isTrack
                                                     ? "p-0 m-0 overflow-hidden"
-                                                    : `shadow ${message.userName === getUsername()
+                                                    : `${message.userName === getUsername()
                                                         ? "bg-neutral-900 text-white"
-                                                        : "bg-white text-gray-900"
+                                                        : "bg-white text-black"
                                                     } py-1.5 px-2.5`
                                                 }`}
+                                            style={{
+                                                // color: message.userName !== getUsername() ? hashStringToColor(message.userName!) : undefined,
+                                                // boxShadow: "rgba(0, 0, 0, 0.1) 1px 2px 1px -1px"
+                                            }}
                                         >
                                             {message.isTrack ? (
                                                 <iframe
