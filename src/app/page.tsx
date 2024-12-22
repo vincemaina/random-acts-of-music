@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
+import Footer from "@/components/landing/footer";
 
 export default function HomePage() {
     return (
@@ -80,19 +81,7 @@ export default function HomePage() {
                 </div>
                 <div className="text-sm mt-3 opacity-50">(It's free, and there's no signup)</div>
             </section>
-
-            <footer className="absolute bottom-0 left-0 w-full overflow-hidden z-20 py-4 bg-white/5 backdrop-blur-sm">
-                <div className="animate-marquee whitespace-nowrap">
-                    <span className="mx-4 text-xs text-white/70">🎵 Connect through music</span>
-                    <span className="mx-4 text-xs text-white/70">🎧 Share your favorite songs</span>
-                    <span className="mx-4 text-xs text-white/70">🎸 Discover new artists</span>
-                    <span className="mx-4 text-xs text-white/70">🎼 Make friends worldwide</span>
-                    <span className="mx-4 text-xs text-white/70">🎵 Connect through music</span>
-                    <span className="mx-4 text-xs text-white/70">🎧 Share your favorite songs</span>
-                    <span className="mx-4 text-xs text-white/70">🎸 Discover new artists</span>
-                    <span className="mx-4 text-xs text-white/70">🎼 Make friends worldwide</span>
-                </div>
-            </footer>
+            <Footer />
         </div>
     );
 }

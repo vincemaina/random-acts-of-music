@@ -1,3 +1,4 @@
+import { getSpotifyAccessToken } from '@/lib/spotify';
 import { NextResponse } from 'next/server';
 
 export async function GET(request: Request) {
@@ -8,12 +9,13 @@ export async function GET(request: Request) {
     return NextResponse.json({ error: 'No track IDs provided' }, { status: 400 });
   }
 
+  const accessToken = await getSpotifyAccessToken();
   try {
     const response = await fetch(
       `https://api.spotify.com/v1/tracks?ids=${ids}`,
       {
         headers: {
-          Authorization: `Bearer ${process.env.SPOTIFY_ACCESS_TOKEN}`,
+          Authorization: `Bearer ${accessToken}`,
         },
       }
     );
