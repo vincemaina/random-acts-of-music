@@ -129,7 +129,7 @@ export default function PublicChat({ socket }: Props) {
             />
 
             {/* Messages Container */}
-            <div className="flex-1 overflow-y-auto p-2 sm:p-4 space-y-2 bg-gray-50">
+            <div className="flex-1 overflow-y-auto p-2 sm:p-4 bg-gray-50 flex flex-col-reverse gap-1">
                 {messages.length === 0 ? (
                     <div className="h-full flex items-center justify-center">
                         <div className="text-center">
@@ -140,16 +140,15 @@ export default function PublicChat({ socket }: Props) {
                     </div>
                 ) : (
                     <>
-                        {messages.map((message, index) => {
-                            const isSameUserAsPrevious =
-                                index > 0 && messages[index - 1].userName === message.userName;
+                        {messages.slice().reverse().map((message, index) => {
+                            const isSameUserAsNext = index < messages.length - 1 && messages.slice().reverse()[index + 1].userName === message.userName;
 
                             return (
                                 <div key={index} className="space-y-0.5">
                                     {/* Show username above bubble if it's a new user group */}
-                                    {!isSameUserAsPrevious && (
+                                    {!isSameUserAsNext && (
                                         <p
-                                            className={`text-xs font-medium ${index !== 0 ? "mt-10" : ""} ${message.userName === getUsername()
+                                            className={`text-xs font-medium ${index !== messages.length - 1 ? "mt-10" : ""} ${message.userName === getUsername()
                                                     ? "text-right text-gray-500"
                                                     : "text-left text-gray-700"
                                                 }`}
