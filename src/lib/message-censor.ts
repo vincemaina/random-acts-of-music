@@ -15,14 +15,6 @@ export function censorMessage(message: string): boolean {
         return false;
     }
 
-    // Updated regular expression to allow only letters, spaces, hyphens, and apostrophes
-    const namePattern = /^[a-z]+(?:['']?[a-z]+)*(?:[ -][a-z]+(?:['']?[a-z]+)*)*$/i;
-
-    // Check if the name matches the pattern
-    if (!namePattern.test(trimmedName)) {
-        return false;
-    }
-
     // Split the name into words, considering spaces and hyphens as separators
     const words = trimmedName.split(/[ -]+/);
 

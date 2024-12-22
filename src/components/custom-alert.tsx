@@ -31,7 +31,7 @@ export function CustomAlert({ isOpen, onClose, title = "Warning", message }: Cus
           max-w-md 
           cursor-pointer 
           backdrop-blur-md 
-          bg-background/60 
+          bg-white
           border 
           border-destructive/20 
           shadow-lg 
