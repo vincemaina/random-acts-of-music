@@ -26,7 +26,7 @@ export default function RootLayout({
                     data-website-id="5ee1a1e6-1fcb-497e-aee2-31ed88d22638"
                 ></script>
             </head>
-            <body>{children}</body>
+            <body className="font-suisse">{children}</body>
         </html>
     );
 }

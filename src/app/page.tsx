@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
-import { ArrowRight } from "lucide-react";
+
 export default function HomePage() {
     return (
         <div className="relative h-screen overflow-hidden text-white drop-shadow-sm">

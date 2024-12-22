@@ -93,7 +93,10 @@ export default {
   			'accordion-up': 'accordion-up 0.2s ease-out',
         'marquee': 'marquee 25s linear infinite'
   		}
-  	}
+  	},
+	  fontFamily: {
+		suisse: ["Suisse", "sans-serif"],
+	},
   },
   plugins: [require("tailwindcss-animate")],
 } satisfies Config;

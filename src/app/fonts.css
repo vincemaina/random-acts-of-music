@@ -1,0 +1,89 @@
+@font-face {
+    font-family: 'Suisse';
+    src: url('https://cdn.glitch.com/e4a836c4-56eb-493a-ae1c-c45a16ffaeb9%2FSuisseIntl-Regular-WebS.woff2') format('woff2'),
+        /* Super Modern Browsers */
+        url('https://cdn.glitch.com/e4a836c4-56eb-493a-ae1c-c45a16ffaeb9%2FSuisseIntl-Regular-WebS.woff') format('woff'),
+        /* Pretty Modern Browsers */
+        url('https://cdn.glitch.com/e4a836c4-56eb-493a-ae1c-c45a16ffaeb9%2FSuisseIntl-Regular-WebS.ttf') format('truetype');
+    /* Safari, Android, iOS */
+    font-weight: normal;
+    font-style: normal;
+    letter-spacing: -0.3;
+}
+
+@font-face {
+    font-family: 'Suisse';
+    src: url('https://cdn.glitch.com/e4a836c4-56eb-493a-ae1c-c45a16ffaeb9%2FSuisseIntl-RegularItalic-WebS.woff2') format('woff2'),
+        /* Super Modern Browsers */
+        url('https://cdn.glitch.com/e4a836c4-56eb-493a-ae1c-c45a16ffaeb9%2FSuisseIntl-RegularItalic-WebS.woff') format('woff'),
+        /* Pretty Modern Browsers */
+        url('https://cdn.glitch.com/e4a836c4-56eb-493a-ae1c-c45a16ffaeb9%2FSuisseIntl-RegularItalic-WebS.ttf') format('truetype');
+    /* Safari, Android, iOS */
+    font-weight: normal;
+    font-style: italic;
+    letter-spacing: -0.3;
+}
+
+@font-face {
+    font-family: 'Suisse';
+    src: url('https://cdn.glitch.com/e4a836c4-56eb-493a-ae1c-c45a16ffaeb9%2FSuisseIntl-Book-WebS.woff2') format('woff2'),
+        /* Super Modern Browsers */
+        url('https://cdn.glitch.com/e4a836c4-56eb-493a-ae1c-c45a16ffaeb9%2FSuisseIntl-Book-WebS.woff') format('woff'),
+        /* Pretty Modern Browsers */
+        url('https://cdn.glitch.com/e4a836c4-56eb-493a-ae1c-c45a16ffaeb9%2FSuisseIntl-Book-WebS.ttf') format('truetype');
+    /* Safari, Android, iOS */
+    font-weight: 500;
+    font-style: normal;
+    letter-spacing: -0.3;
+}
+
+@font-face {
+    font-family: 'Suisse';
+    src: url('https://cdn.glitch.com/e4a836c4-56eb-493a-ae1c-c45a16ffaeb9%2FSuisseIntl-BookItalic-WebS.woff2') format('woff2'),
+        /* Super Modern Browsers */
+        url('https://cdn.glitch.com/e4a836c4-56eb-493a-ae1c-c45a16ffaeb9%2FSuisseIntl-BookItalic-WebS.woff') format('woff'),
+        /* Pretty Modern Browsers */
+        url('https://cdn.glitch.com/e4a836c4-56eb-493a-ae1c-c45a16ffaeb9%2FSuisseIntl-BookItalic-WebS.ttf') format('truetype');
+    /* Safari, Android, iOS */
+    font-weight: 500;
+    font-style: italic;
+    letter-spacing: -0.3;
+}
+
+@font-face {
+    font-family: 'Suisse';
+    src: url('https://cdn.glitch.com/e4a836c4-56eb-493a-ae1c-c45a16ffaeb9%2FSuisseIntl-Light-WebS.woff2') format('woff2'),
+        /* Super Modern Browsers */
+        url('https://cdn.glitch.com/e4a836c4-56eb-493a-ae1c-c45a16ffaeb9%2FSuisseIntl-Light-WebS.woff') format('woff'),
+        /* Pretty Modern Browsers */
+        url('https://cdn.glitch.com/e4a836c4-56eb-493a-ae1c-c45a16ffaeb9%2FSuisseIntl-Light-WebS.ttf') format('truetype');
+    /* Safari, Android, iOS */
+    font-weight: 300;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Suisse';
+    src: url('https://cdn.glitch.com/e4a836c4-56eb-493a-ae1c-c45a16ffaeb9%2FSuisseIntl-LightItalic-WebS.woff2') format('woff2'),
+        /* Super Modern Browsers */
+        url('https://cdn.glitch.com/e4a836c4-56eb-493a-ae1c-c45a16ffaeb9%2FSuisseIntl-LightItalic-WebS.woff') format('woff'),
+        /* Pretty Modern Browsers */
+        url('https://cdn.glitch.com/e4a836c4-56eb-493a-ae1c-c45a16ffaeb9%2FSuisseIntl-LightItalic-WebS.ttf') format('truetype');
+    /* Safari, Android, iOS */
+    font-weight: 300;
+    font-style: italic;
+    letter-spacing: -0.3;
+}
+
+@font-face {
+    font-family: 'Suisse';
+    src: url('https://cdn.glitch.com/e4a836c4-56eb-493a-ae1c-c45a16ffaeb9%2FSuisseIntl-SemiBold-WebS.woff2') format('woff2'),
+        /* Super Modern Browsers */
+        url('https://cdn.glitch.com/e4a836c4-56eb-493a-ae1c-c45a16ffaeb9%2FSuisseIntl-SemiBold-WebS.woff') format('woff'),
+        /* Pretty Modern Browsers */
+        url('https://cdn.glitch.com/e4a836c4-56eb-493a-ae1c-c45a16ffaeb9%2FSuisseIntl-SemiBold-WebS.ttf') format('truetype');
+    /* Safari, Android, iOS */
+    font-weight: 600;
+    font-style: normal;
+    letter-spacing: -0.3;
+}
