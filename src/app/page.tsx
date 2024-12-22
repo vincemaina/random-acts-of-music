@@ -45,12 +45,12 @@ export default function HomePage() {
 
             {/* Hero Section - Updated with responsive classes */}
             <section className="relative z-20 flex flex-col items-center justify-center text-center h-full px-4 max-w-5xl mx-auto">
-                <Badge
+                {/* <Badge
                     variant="outline"
                     className="bg-white/10 backdrop-blur-sm hover:bg-white/20 text-white hover:text-white border-white/30 transition-all duration-300 text-xs md:text-sm mb-4 hidden md:block"
                 >
-                    The chat app for music lover. No sign up required. 😰
-                </Badge>
+                    The chat app for music lovers. No sign up required. 😰
+                </Badge> */}
                 <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold mb-4 md:mb-4 tracking-tighter mx-auto">
                     RANDOM ACTS OF{" "}
                     <span className=" drop-shadow-glow relative px-2">
@@ -59,13 +59,13 @@ export default function HomePage() {
                     </span>
                 </h1>
 
-                <p className="text-center max-w-[200px] md:max-w-2xl mx-auto tracking-tighter hidden md:block">
-                    <span className="text-sm md:text-lg opacity-50">
+                <p className="text-center mx-auto max-w-xs sm:max-w-full">
+                    <span className="text-sm md:text-2xl opacity-50">
                         Discover new music. Meet new people. One random chat at a time.
                     </span>
                 </p>
 
-                <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 max-w-md mx-auto justify-center mt-2">
+                <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 max-w-md mx-auto justify-center mt-10">
                     <Link href="/random" className="flex-1 sm:flex-initial">
                         <Button className="w-full bg-[#752add] hover:bg-[#8c44ff] transition-all duration-300 text-sm">
                             <span className="bg-green-500 rounded-full w-2 h-2 animate-pulse" />{" "}
@@ -81,6 +81,7 @@ export default function HomePage() {
                         </Button>
                     </Link>
                 </div>
+                <div className="text-sm mt-3 opacity-50">(It's free, and there's no signup)</div>
             </section>
 
             <footer className="absolute bottom-0 left-0 w-full overflow-hidden z-20 py-4 bg-white/5 backdrop-blur-sm">
