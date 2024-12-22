@@ -193,7 +193,7 @@ export default function PublicChat({ socket }: Props) {
                                     {/* Show username above bubble if it's a new user group */}
                                     {!isSameUserAsNext && (
                                         <p
-                                            className={`text-xs font-semibold italic mx-1 mb-1.5 ${index !== messages.length - 1 ? "mt-10" : ""} ${message.userName === getUsername()
+                                            className={`text-xs font-semibold italic mx-1 mb-1.5 ${index !== messages.length - 1 ? "mt-5" : ""} ${message.userName === getUsername()
                                                 ? "text-right text-gray-500"
                                                 : "text-left text-gray-700"
                                                 }`}
