@@ -188,12 +188,22 @@ export default function PublicChat({ socket }: Props) {
                 ) : (
                     <>
                         {messages.slice().reverse().map((message, index) => {
+
+                            const currentTimestamp = new Date(message.timestamp!).getTime();
+                            const previousTimestamp = index < messages.length - 1 
+                                ? new Date(messages.slice().reverse()[index + 1].timestamp!).getTime() 
+                                : null;
+                        
+                            const timeGapExceeded = previousTimestamp 
+                                ? (currentTimestamp - previousTimestamp) > 3600 * 1000 // 1 hour in milliseconds
+                                : true; // Always show for the first message
+
                             const isSameUserAsNext = index < messages.length - 1 && messages.slice().reverse()[index + 1].userName === message.userName;
 
                             return (
                                 <div key={index} className="space-y-0.5" title={new Date(message.timestamp!).toLocaleString()}>
                                     {/* Show username above bubble if it's a new user group */}
-                                    {!isSameUserAsNext && (
+                                    {(!isSameUserAsNext || timeGapExceeded) && (
                                         <p
                                             className={`text-xs font-semibold italic mx-1 mb-1.5 ${index !== messages.length - 1 ? "mt-5" : ""} ${message.userName === getUsername()
                                                 ? "text-right text-gray-500"
