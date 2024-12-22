@@ -20,6 +20,7 @@ export default function RootLayout({
                     crossOrigin="anonymous"
                 />
                 <script
+                    async
                     defer
                     src="https://cloud.umami.is/script.js"
                     data-website-id="5ee1a1e6-1fcb-497e-aee2-31ed88d22638"
