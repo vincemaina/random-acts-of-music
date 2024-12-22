@@ -6,6 +6,7 @@ import { type Socket } from "socket.io-client";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { AnimatePresence } from "framer-motion";
+import { censorMessage } from "@/lib/message-censor";
 
 interface Message {
     content: string;
@@ -62,10 +63,16 @@ export default function PublicChat({ socket }: Props) {
     const handleSubmit = (e: FormEvent) => {
         e.preventDefault();
         if (inputMessage.trim()) {
+            const isClean = censorMessage(inputMessage);
+            
+            if (!isClean) {
+                alert("Please keep the chat clean! Profanity is not allowed.");
+                return;
+            }
+
             const message: Message = {
                 content: inputMessage
             };
-            // setMessages([...messages, message]);
             socket.emit("public-message", { message });
             setInputMessage("");
         }
