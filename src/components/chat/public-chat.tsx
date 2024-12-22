@@ -9,6 +9,7 @@ import { AnimatePresence } from "framer-motion";
 import { CustomAlert } from "../custom-alert";
 import { getSessionId, getUsername, setUsername } from "@/lib/auth";
 import { hashStringToColor } from "@/lib/username-colours";
+import { timeAgo } from "@/lib/relative-times";
 
 interface Message {
     content: string;
@@ -23,6 +24,7 @@ interface Message {
     sender?: string;
     userName?: string;
     userId?: string;
+    timestamp?: string;
 }
 
 interface Props {
@@ -189,7 +191,7 @@ export default function PublicChat({ socket }: Props) {
                             const isSameUserAsNext = index < messages.length - 1 && messages.slice().reverse()[index + 1].userName === message.userName;
 
                             return (
-                                <div key={index} className="space-y-0.5">
+                                <div key={index} className="space-y-0.5" title={new Date(message.timestamp!).toLocaleString()}>
                                     {/* Show username above bubble if it's a new user group */}
                                     {!isSameUserAsNext && (
                                         <p
@@ -199,7 +201,7 @@ export default function PublicChat({ socket }: Props) {
                                                 }`}
                                             style={{ color: hashStringToColor(message.userName!) }}
                                         >
-                                            {message.userName}
+                                            {message.userName} - {timeAgo(new Date(message.timestamp!))}
                                         </p>
                                     )}
                                     <div
