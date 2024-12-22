@@ -128,7 +128,7 @@ export default function PublicChat({ socket }: Props) {
                 message="Honestly, grow up."
             />
             {/* Messages Container */}
-            <div className="flex-1 overflow-y-auto p-2 sm:p-4 space-y-4 bg-gray-50">
+            <div className="flex-1 overflow-y-auto p-2 sm:p-4 space-y-2 bg-gray-50">
                 {messages.length === 0 ? (
                     <div className="h-full flex items-center justify-center">
                         <div className="text-center">
