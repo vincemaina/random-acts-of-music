@@ -24,9 +24,11 @@ export default function HomePage() {
             
             {/* Header Section - New */}
             <header className="absolute top-0 left-0 w-full z-30 flex justify-between items-center py-4 px-4 md:px-32">
-                <Badge className="bg-white/10 backdrop-blur-sm hover:bg-white/20 text-white hover:text-white border-white/30 transition-all duration-300 text-[10px] md:text-sm">
-                    Advertise with us today 🚀
-                </Badge>
+                <Link href={"/advertise"}>
+                    <Badge className="bg-white/10 backdrop-blur-sm hover:bg-white/20 text-white hover:text-white border-white/30 transition-all duration-300 text-[10px] md:text-sm">
+                        Advertise with us today 🚀
+                    </Badge>
+                </Link>
                 
                 <nav className="flex gap-6 mr-4 text-[12px] md:text-sm">
                     <Link href="/about" className="text-white/70 hover:text-white transition-colors">

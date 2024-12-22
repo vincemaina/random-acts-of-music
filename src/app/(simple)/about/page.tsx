@@ -1,7 +1,7 @@
 export default function AboutPage() {
     return (<>
         <div className="flex flex-col gap-5 max-w-xl">
-            <h2 className="font-bold text-xl">About us</h2>
+            <h2 className="font-bold text-2xl mb-3">About us</h2>
             <p>
                 Welcome to <em>Random Acts of Music</em> — a project built with heart, passion, and a whole lot of love for music.
             </p>
