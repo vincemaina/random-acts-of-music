@@ -6,6 +6,8 @@ import { type Socket } from "socket.io-client";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { AnimatePresence } from "framer-motion";
+import { censorMessage } from "@/lib/message-censor";
+import { CustomAlert } from "../custom-alert";
 import { getSessionId, getUsername, setUsername } from "@/lib/auth";
 
 interface Message {
@@ -31,6 +33,7 @@ export default function PublicChat({ socket }: Props) {
     const [messages, setMessages] = useState<Message[]>([]);
     const [inputMessage, setInputMessage] = useState("");
     const [activeSelector, setActiveSelector] = useState<"search" | null>(null);
+    const [showAlert, setShowAlert] = useState(false);
 
     useEffect(() => {
 
@@ -76,10 +79,16 @@ export default function PublicChat({ socket }: Props) {
     const handleSubmit = (e: FormEvent) => {
         e.preventDefault();
         if (inputMessage.trim()) {
+            const isClean = censorMessage(inputMessage);
+            
+            if (!isClean) {
+                setShowAlert(true);
+                return;
+            }
+
             const message: Message = {
                 content: inputMessage
             };
-            // setMessages([...messages, message]);
             socket.emit("public-message", { message });
             setInputMessage("");
         }
@@ -113,6 +122,11 @@ export default function PublicChat({ socket }: Props) {
 
     return (
         <div className="h-full flex flex-col">
+            <CustomAlert
+                isOpen={showAlert}
+                onClose={() => setShowAlert(false)}
+                message="Honestly, grow up."
+            />
             {/* Messages Container */}
             <div className="flex-1 overflow-y-auto p-2 sm:p-4 space-y-4 bg-gray-50">
                 {messages.length === 0 ? (
