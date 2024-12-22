@@ -6,6 +6,7 @@ import { type Socket } from "socket.io-client";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { AnimatePresence } from "framer-motion";
+import { getSessionId, getUsername, setUsername } from "@/lib/auth";
 
 interface Message {
     content: string;
@@ -32,6 +33,19 @@ export default function PublicChat({ socket }: Props) {
     const [activeSelector, setActiveSelector] = useState<"search" | null>(null);
 
     useEffect(() => {
+
+        const sessionId = getSessionId();
+
+        // Authenticate with sessionId
+        socket.emit("authenticate", { sessionId });
+
+        // Auth confirmation
+        socket.on("authenticated", (userInfo) => {
+            const { sessionId, username } = userInfo;
+            setUsername(username);
+            console.log("Authenticated as:", userInfo);
+        });
+
         // Join the public room on mount
         socket.emit("join-public-room");
 
@@ -46,7 +60,7 @@ export default function PublicChat({ socket }: Props) {
 
         return () => {
             socket.emit("leave-room", { room: "public-room" });
-            socket.off("connect");
+            socket.off("authenticated");
             socket.off("public-messages");
             socket.off("public-message");
         };
@@ -114,7 +128,7 @@ export default function PublicChat({ socket }: Props) {
                         {messages.map((message, index) => (
                             <div
                                 key={index}
-                                className={`flex ${message.userId === socket.id
+                                className={`flex ${message.userName === getUsername()
                                         ? "justify-end"
                                         : "justify-start"
                                     }`}
@@ -122,7 +136,7 @@ export default function PublicChat({ socket }: Props) {
                                 <div
                                     className={`max-w-[85%] sm:max-w-[70%] rounded-lg ${message.isTrack
                                             ? "p-0 m-0 overflow-hidden"
-                                            : `shadow ${message.userId === socket.id
+                                            : `shadow ${message.userName === getUsername()
                                                 ? "bg-neutral-900 text-white"
                                                 : "bg-white text-gray-900"
                                             } py-1.5 px-2.5`
