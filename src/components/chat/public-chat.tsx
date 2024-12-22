@@ -8,6 +8,7 @@ import { Input } from "../ui/input";
 import { AnimatePresence } from "framer-motion";
 import { CustomAlert } from "../custom-alert";
 import { getSessionId, getUsername, setUsername } from "@/lib/auth";
+import { hashStringToColor } from "@/lib/username-colours";
 
 interface Message {
     content: string;
@@ -192,41 +193,38 @@ export default function PublicChat({ socket }: Props) {
                                     {/* Show username above bubble if it's a new user group */}
                                     {!isSameUserAsNext && (
                                         <p
-                                            className={`text-xs font-medium ${index !== messages.length - 1 ? "mt-10" : ""} ${message.userName === getUsername()
-                                                    ? "text-right text-gray-500"
-                                                    : "text-left text-gray-700"
+                                            className={`text-xs font-semibold italic mx-1 mb-1.5 ${index !== messages.length - 1 ? "mt-10" : ""} ${message.userName === getUsername()
+                                                ? "text-right text-gray-500"
+                                                : "text-left text-gray-700"
                                                 }`}
+                                            style={{ color: hashStringToColor(message.userName!) }}
                                         >
                                             {message.userName}
                                         </p>
                                     )}
                                     <div
                                         className={`flex text-sm ${message.userName === getUsername()
-                                                ? "justify-end"
-                                                : "justify-start"
+                                            ? "justify-end"
+                                            : "justify-start"
                                             }`}
                                     >
                                         <div
-                                            className={`max-w-[85%] sm:max-w-[70%] rounded-lg ${message.isTrack
-                                                    ? "p-0 m-0 overflow-hidden"
-                                                    : `shadow ${message.userName === getUsername()
-                                                        ? "bg-neutral-900 text-white"
-                                                        : "bg-white text-gray-900"
-                                                    } py-1.5 px-2.5`
+                                            className={`max-w-[85%] sm:max-w-[40%] rounded-lg ${message.isTrack
+                                                ? "p-0 m-0 overflow-hidden"
+                                                : `shadow ${message.userName === getUsername()
+                                                    ? "bg-neutral-900 text-white"
+                                                    : "bg-white text-black"
+                                                } py-1.5 px-2.5`
                                                 }`}
+                                            style={{
+                                                // color: message.userName !== getUsername() ? hashStringToColor(message.userName!) : undefined,
+                                                // boxShadow: "rgba(0, 0, 0, 0.1) 1px 2px 1px -1px"
+                                            }}
                                         >
                                             {message.isTrack ? (
-                                                <iframe
-                                                    style={{ borderRadius: "12px" }}
-                                                    src={`https://open.spotify.com/embed/track/${extractSpotifyTrackId(
-                                                        message.trackData?.spotifyUrl || ""
-                                                    )}?utm_source=generator`}
-                                                    width="100%"
-                                                    height="100%"
-                                                    allowFullScreen
-                                                    allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-                                                    loading="lazy"
-                                                />
+                                                <iframe style={{borderRadius: "12px", height: 80, paddingBottom: 0}} src={`https://open.spotify.com/embed/track/${extractSpotifyTrackId(
+                                                    message.trackData?.spotifyUrl || ""
+                                                )}?utm_source=generator`} width="100%" height="100%" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
                                             ) : (
                                                 <p>{message.content}</p>
                                             )}
