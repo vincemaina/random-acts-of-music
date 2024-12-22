@@ -6,7 +6,6 @@ import { type Socket } from "socket.io-client";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { AnimatePresence } from "framer-motion";
-import { censorMessage } from "@/lib/message-censor";
 import { CustomAlert } from "../custom-alert";
 import { getSessionId, getUsername, setUsername } from "@/lib/auth";
 
@@ -79,13 +78,6 @@ export default function PublicChat({ socket }: Props) {
     const handleSubmit = (e: FormEvent) => {
         e.preventDefault();
         if (inputMessage.trim()) {
-            const isClean = censorMessage(inputMessage);
-
-            if (!isClean) {
-                setShowAlert(true);
-                return;
-            }
-
             const message: Message = {
                 content: inputMessage
             };
