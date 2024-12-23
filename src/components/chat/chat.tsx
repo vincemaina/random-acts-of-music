@@ -49,7 +49,7 @@ export default function Chat({ socket }: Props) {
         if (chatRoom === null) {
             timeout.current = setTimeout(() => {
                 setLowActivity(true);
-            }, 1000 * 0);
+            }, 1000 * 10);
         } else {
             clearTimeout(timeout.current);
             setLowActivity(false);
