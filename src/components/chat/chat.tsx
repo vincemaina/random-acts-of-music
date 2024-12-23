@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, FormEvent, useEffect } from "react";
+import { useState, FormEvent, useEffect, useRef } from "react";
 import SpotifySearchTracks from "../landing/spotify-search-tracks";
 import { type Socket } from "socket.io-client";
 import { Button } from "../ui/button";
@@ -8,6 +8,7 @@ import { Input } from "../ui/input";
 import { Loader2 } from "lucide-react";
 import { AnimatePresence } from "framer-motion";
 import PromptSelector from "@/app/(chat)/random/prompt";
+import Link from "next/link";
 
 interface Message {
     content: string;
@@ -37,9 +38,23 @@ export default function Chat({ socket }: Props) {
         "top" | "search" | "prompt" | null
     >(null);
     const [userLeft, setUserLeft] = useState<boolean>(false);
+    const [lowActivity, setLowActivity] = useState<boolean>(false);
 
     // Add new Audio object
     const alertSound = new Audio("/alert.mp3");
+
+    const timeout = useRef<NodeJS.Timeout>();
+
+    useEffect(() => {
+        if (chatRoom === null) {
+            timeout.current = setTimeout(() => {
+                setLowActivity(true);
+            }, 1000 * 0);
+        } else {
+            clearTimeout(timeout.current);
+            setLowActivity(false);
+        }
+    }, [chatRoom]);
 
     useEffect(() => {
         // When the user is matched, receive the chat room and the other user
@@ -159,29 +174,26 @@ export default function Chat({ socket }: Props) {
                         {messages.map((message, index) => (
                             <div
                                 key={index}
-                                className={`flex ${
-                                    message.recipientId === matchedUser
+                                className={`flex ${message.recipientId === matchedUser
                                         ? "justify-end"
                                         : "justify-start"
-                                }`}
+                                    }`}
                             >
                                 <div
-                                    className={`max-w-[85%] sm:max-w-[70%] rounded-lg ${
-                                        message.isTrack 
+                                    className={`max-w-[85%] sm:max-w-[70%] rounded-lg ${message.isTrack
                                             ? "p-0 m-0 overflow-hidden"
-                                            : `shadow ${
-                                                message.recipientId === matchedUser
-                                                    ? "bg-neutral-900 text-white"
-                                                    : "bg-white text-gray-900"
-                                              } p-3 sm:p-4`
-                                    }`}
+                                            : `shadow ${message.recipientId === matchedUser
+                                                ? "bg-neutral-900 text-white"
+                                                : "bg-white text-gray-900"
+                                            } p-3 sm:p-4`
+                                        }`}
                                 >
                                     {message.isTrack ? (
                                         <iframe
                                             style={{ borderRadius: "12px" }}
                                             src={`https://open.spotify.com/embed/track/${extractSpotifyTrackId(
                                                 message.trackData?.spotifyUrl ||
-                                                    ""
+                                                ""
                                             )}?utm_source=generator`}
                                             width="100%"
                                             height="100%"
@@ -216,7 +228,7 @@ export default function Chat({ socket }: Props) {
                     <SpotifySearchTracks onTrackSelect={handleTrackSelect} />
                 )}
                 {activeSelector === "prompt" && (
-                    <PromptSelector 
+                    <PromptSelector
                         onPromptSelect={(prompt) => {
                             if (prompt) {
                                 const message: Message = {
@@ -232,9 +244,35 @@ export default function Chat({ socket }: Props) {
                                 });
                             }
                             setActiveSelector(null);
-                        }} 
+                        }}
                     />
                 )}
+                {lowActivity && (<>
+                    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 animate-in fade-in duration-200">
+                        <div className="w-full max-w-xl bg-gray-900 rounded-2xl shadow-2xl border border-gray-700 p-4 sm:p-6 backdrop-blur-lg animate-in slide-in-from-bottom-4 duration-200 text-white">
+                            <h3 className="text-lg font-semibold mb-2">Not many users online</h3>
+                            <p className="text-sm mb-4">Try joining the public chat to meet more people!</p>
+                            <Link href={"/public"}>
+                                <Button
+                                    onClick={() => {
+                                        setLowActivity(false);
+                                        // Add navigation or public chat redirection here
+                                    }}
+                                    className="w-full bg-[#752add] text-white hover:bg-[#8c44ff]"
+                                >
+                                    Join Public Chat
+                                </Button>
+                            </Link>
+                            <Button
+                                onClick={() => setLowActivity(false)}
+                                variant="outline"
+                                className="w-full mt-2 text-black"
+                            >
+                                Keep Waiting
+                            </Button>
+                        </div>
+                    </div>
+                </>)}
             </AnimatePresence>
 
             {/* Input Form */}
@@ -247,9 +285,8 @@ export default function Chat({ socket }: Props) {
                         <Button
                             type="button"
                             variant="outline"
-                            className={`text-black rounded w-full ${userLeft ? "bg-red-500 text-white" : ""} ${
-                                !chatRoom ? "hover:cursor-not-allowed" : ""
-                            }`}
+                            className={`text-black rounded w-full ${userLeft ? "bg-red-500 text-white" : ""} ${!chatRoom ? "hover:cursor-not-allowed" : ""
+                                }`}
                             onClick={handleLeaveChat}
                             disabled={!chatRoom}
                         >
@@ -258,9 +295,8 @@ export default function Chat({ socket }: Props) {
                         <Button
                             type="button"
                             onClick={() => setActiveSelector(activeSelector === "prompt" ? null : "prompt")}
-                            className={`text-white rounded w-full bg-[#752add] hover:bg-[#8c44ff] transition-all duration-300 ${
-                                !chatRoom || userLeft ? "hover:cursor-not-allowed" : ""
-                            }`}
+                            className={`text-white rounded w-full bg-[#752add] hover:bg-[#8c44ff] transition-all duration-300 ${!chatRoom || userLeft ? "hover:cursor-not-allowed" : ""
+                                }`}
                             disabled={!chatRoom || userLeft}
                         >
                             Get Prompt
@@ -268,9 +304,8 @@ export default function Chat({ socket }: Props) {
                         <Button
                             type="button"
                             onClick={() => setActiveSelector(activeSelector === "search" ? null : "search")}
-                            className={`text-white rounded w-full ${
-                                !chatRoom || userLeft ? "hover:cursor-not-allowed" : ""
-                            }`}
+                            className={`text-white rounded w-full ${!chatRoom || userLeft ? "hover:cursor-not-allowed" : ""
+                                }`}
                             disabled={!chatRoom || userLeft}
                         >
                             Send a Track
@@ -286,16 +321,14 @@ export default function Chat({ socket }: Props) {
                                     ? "Type your message..."
                                     : "Waiting for a chat partner..."
                             }
-                            className={`flex-1 border border-gray-300 rounded ${
-                                !chatRoom ? "hover:cursor-not-allowed" : ""
-                            }`}
+                            className={`flex-1 border border-gray-300 rounded ${!chatRoom ? "hover:cursor-not-allowed" : ""
+                                }`}
                             disabled={!chatRoom || userLeft}
                         />
                         <Button
                             type="submit"
-                            className={`text-white rounded ${
-                                !chatRoom ? "hover:cursor-not-allowed" : ""
-                            }`}
+                            className={`text-white rounded ${!chatRoom ? "hover:cursor-not-allowed" : ""
+                                }`}
                             disabled={!chatRoom || userLeft}
                         >
                             Send
