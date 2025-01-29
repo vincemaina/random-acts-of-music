@@ -1,3 +1,6 @@
+import Link from "next/link";
+import { Badge } from "@/components/ui/badge";
+
 export default function AboutPage() {
     return (<>
         <div className="flex flex-col gap-5 max-w-xl">
@@ -23,6 +26,28 @@ export default function AboutPage() {
             <p>
                 George & Vince 🎵✨
             </p>
+            <p>
+                Follow George on X:
+            </p>
+            <Link href="https://x.com/_frederickjames" target="_blank">
+                    <Badge
+                        className="mb-4 hover:bg-green-100/50 shadow-xl"
+                        variant="outline"
+                    >
+                        @_frederickjames
+                    </Badge>
+                </Link>
+                <p>
+                    Follow Vince:
+                </p>
+                <Link href="https://www.vincemaina.co.uk/" target="_blank">
+                    <Badge
+                        className="mb-4 hover:bg-green-100/50 shadow-xl"
+                        variant="outline"
+                    >
+                        Vince Maina
+                    </Badge>
+                </Link>
         </div>
     </>)
 }
