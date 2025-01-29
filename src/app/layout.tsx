@@ -25,12 +25,7 @@ export default function RootLayout({
                     src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8618892618587385"
                     crossOrigin="anonymous"
                 />
-                <script
-                    async
-                    defer
-                    src="https://cloud.umami.is/script.js"
-                    data-website-id="5ee1a1e6-1fcb-497e-aee2-31ed88d22638"
-                ></script>
+                <script defer src="https://cloud.umami.is/script.js" data-website-id="0d75eae1-1fe8-438c-8082-a0791aec8f88"></script>
             </head>
             <body className="font-suisse">{children}</body>
         </html>
